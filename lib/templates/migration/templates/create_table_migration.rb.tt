@@ -12,7 +12,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.string :<%= attribute.name %><%= attribute.inject_options %>
 <% elsif attribute.reference? -%>
       t.<%= attribute.type %> :<%= attribute.name %><%= attribute.inject_options %><%= foreign_key_type %>
-<% elsif !attribute.virtual? && attribute.type != :string && attribute.type != :text -%>
+  <% elsif (!attribute.respond_to?(:virtual?) || (attribute.respond_to?(:virtual?) && !attribute.virtual?)) && attribute.type != :string && attribute.type != :text -%>
       t.<%= attribute.type %> :<%= attribute.name %><%= attribute.inject_options %>
 <% end -%>
 <% end -%>
@@ -25,7 +25,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.integer :<%= singular_table_name %>_id
       t.string :locale
 <% attributes.each do |attribute| -%>
-<% if !attribute.password_digest? && !attribute.token? && !attribute.reference? && !attribute.virtual? && (attribute.type == :string || attribute.type == :text) -%>
+<% if !attribute.password_digest? && !attribute.token? && !attribute.reference? && (!attribute.respond_to?(:virtual?) || (attribute.respond_to?(:virtual?) && !attribute.virtual?))  && (attribute.type == :string || attribute.type == :text) -%>
       t.<%= attribute.type %> :<%= attribute.name %><%= attribute.inject_options %>
 <% end -%>
 <% end -%>

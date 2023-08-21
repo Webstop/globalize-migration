@@ -10,6 +10,12 @@
 # rspec failure tracking
 .rspec_status
 
+# Text Editors and IDEs
+.idea
+
+# OS Files
+.DS_Store
+
 # Explicitly ignored files
 *--ignore
 **/*--ignore
